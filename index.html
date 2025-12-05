@@ -23,7 +23,6 @@ body{
   margin:30px auto;
   padding:25px;
   border-radius:15px;
- 
 }
 /*Logo */
 .main-box { background: white; max-width: 900px; margin: 40px auto; 
@@ -120,9 +119,12 @@ tr:hover{background:#f1f1f1;cursor:pointer;}
 
   <!-- ✅ LOGO HEADER -->
   <div class="logo-title mb-4" style="border:1px solid green; padding:20px 0px 0px 0px; border-radius:20px;">
-    <h1><span style="color:green;">AIS</span></h1>
+    <!--<h1><span style="color:green;">AIS</span></h1>
     <h5>American <span>Intercon</span> School</h5>
-    <p>A Mengly J. Quach Education School</p>
+    <p>A Mengly J. Quach Education School</p>-->
+    <img id="logoPrint" src="logoais.png" width="400" crossorigin="anonymous">
+
+
     <p style=" color:rgb(10, 161, 20)"><span >មេរៀនសម្រាប់មើលត្រៀមប្រឡង</span>
      <select id="examType" style="border:green;text-align:center;" required>
   <option value="">-- ជ្រើសរើសប្រភេទ --</option>
@@ -758,31 +760,31 @@ function exportPDF(){
     let pdf = new jsPDF("p", "mm", "a4");
 
     let pageWidth  = pdf.internal.pageSize.getWidth();
-    let pageHeight = pdf.internal.pageSize.getHeight();
+    let imgHeight = canvas.height * pageWidth / canvas.width;
 
-    let imgWidth  = pageWidth;
-    let imgHeight = canvas.height * imgWidth / canvas.width;
-
-    if(imgHeight > pageHeight){
-      imgHeight = pageHeight;
-    }
-
-    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
     pdf.save("AIS_Full_Export.pdf");
   });
 }
 
+
 function exportImage(){
   html2canvas(document.getElementById("exportArea"), {
-    scale: 3,   // Resolution ខ្ពស់
-    useCORS: true
-  }).then(canvas=>{
-    let link=document.createElement("a");
-    link.download="AIS_Table Review lesson.png";
-    link.href=canvas.toDataURL("image/png");
+    scale: 3,
+    useCORS: true,
+    allowTaint: false
+  }).then(function(canvas){
+
+    let link = document.createElement("a");
+    link.download = "AIS_Table_Review_Lesson.png";
+    link.href = canvas.toDataURL("image/png");
     link.click();
+
+  }).catch(function(err){
+    alert("Export Photo Failed: " + err);
   });
 }
+
 
 loadData();
 //validation export pdf
@@ -807,5 +809,4 @@ function validateExport(){
 
 </body>
 </html>
-
 
